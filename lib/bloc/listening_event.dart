@@ -5,8 +5,9 @@ abstract class ListeningEvent {}
 
 class StartListening extends ListeningEvent {
   final double volume;
+  final String path;
 
-  StartListening({this.volume});
+  StartListening({this.volume, this.path});
 }
 
 class StopListening extends ListeningEvent {}

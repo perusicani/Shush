@@ -19,7 +19,6 @@ class _ListeningPageState extends State<ListeningPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: new Container(
-        // padding: EdgeInsets.all(30.0),
         child: Stack(children: <Widget>[
           Center(
             child: SingleChildScrollView(
