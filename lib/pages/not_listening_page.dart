@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
-import 'package:Shush/styles/main_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NotListeningPage extends StatefulWidget {
   final ListeningBloc listeningBloc;
-  NotListeningPage({this.listeningBloc});
+  final bool gender;
+  NotListeningPage({this.listeningBloc, this.gender});
 
   @override
   _NotListeningPageState createState() => _NotListeningPageState();
@@ -13,10 +14,15 @@ class NotListeningPage extends StatefulWidget {
 class _NotListeningPageState extends State<NotListeningPage> {
   double volume = 70.0;
   String path;
+  bool male = true;
+  Color unselectedColor = Colors.grey.withOpacity(0.4);
+  Color selectedColor = Colors.yellow[800].withOpacity(0.6);
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: new Container(
         padding: EdgeInsets.all(30.0),
         child: Center(
@@ -38,6 +44,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           context: context,
                           builder: (BuildContext context) {
                             return Dialog(
+                              backgroundColor: Colors.white,
                               insetAnimationCurve: Curves.ease,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0),
@@ -63,7 +70,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                           ),
                                         ),
                                       ),
-                                      SizedBox(height: 10.0),
+                                      SizedBox(height: 20.0),
                                       Center(
                                         child: Text(
                                           "The point is you should shut up",
@@ -86,14 +93,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                     ),
                     SizedBox(width: 30.0),
                     IconButton(
-                      // za permissions ako seljak neki deny-a i nezna doć do app settings
-                      // at least for now
-                      // dodat još ili odabir voice packa ili još neke retardacije ke mi padu na pamet i actually ih stignen implementirat
                       icon: Icon(Icons.settings),
                       color: Colors.grey.withOpacity(0.4),
                       iconSize: 33.0,
                       onPressed: () {
-                        // openAppSettings();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -103,7 +106,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                 borderRadius: BorderRadius.circular(40.0),
                               ),
                               child: Container(
-                                height: 300,
+                                height: 250,
                                 child: Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Column(
@@ -113,10 +116,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                     children: [
                                       Center(
                                         child: Text(
-                                          "Voice selection",
-                                          // TODO neka naznaka ki je voice pack oznacen
+                                          "Voice pack",
                                           style: TextStyle(
-                                            fontSize: 20.0,
+                                            fontSize: 25.0,
                                             fontFamily: 'OpenSansCondensed',
                                             letterSpacing: 4.0,
                                             color: Colors.yellow[800]
@@ -143,13 +145,18 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                           ),
                                           SizedBox(width: 20.0),
                                           IconButton(
-                                            color: Colors.grey.withOpacity(0.4),
+                                            color: widget.gender ?? male
+                                                ? selectedColor
+                                                : unselectedColor,
                                             icon: Icon(Icons.check),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setBool('gender', true);
                                               path =
                                                   "lib/assets/male_voice/Shhh-sound";
                                               print(path);
                                               Navigator.pop(context);
+                                              widget.listeningBloc.add(StopListening());  //rebuild
                                             },
                                           ),
                                         ],
@@ -161,7 +168,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                         children: <Widget>[
                                           Center(
                                             child: Text(
-                                              "Female voice",
+                                              "Female/test voice",
                                               style: TextStyle(
                                                 fontSize: 20.0,
                                                 fontFamily: 'OpenSansCondensed',
@@ -173,45 +180,24 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                           ),
                                           SizedBox(width: 20.0),
                                           IconButton(
-                                            color: Colors.grey.withOpacity(0.4),
+                                            color: widget.gender ?? male
+                                                ? unselectedColor
+                                                : selectedColor,
                                             icon: Icon(Icons.check),
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                                              prefs.setBool('gender', false);
+                                              // path =
+                                              //     "lib/assets/female_voice/Shhh-sound";  //TODO uncomment fem and del test when has voice pack
                                               path =
-                                                  "lib/assets/female_voice/Shhh-sound";
+                                                  "lib/assets/test_voice/Shhh-sound";
                                               print(path);
                                               Navigator.pop(context);
+                                              widget.listeningBloc.add(StopListening());  //rebuild
                                             },
                                           ),
                                         ],
                                       ),
-                                      // SizedBox(height: 10.0),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.center,
-                                      //   children: <Widget>[
-                                      //     Center(
-                                      //       child: Text(
-                                      //         "Custom voice",
-                                      //         style: TextStyle(
-                                      //           fontSize: 20.0,
-                                      //           fontFamily: 'OpenSansCondensed',
-                                      //           letterSpacing: 4.0,
-                                      //           color: Colors.grey
-                                      //               .withOpacity(0.8),
-                                      //         ),
-                                      //       ),
-                                      //     ),
-                                      //     SizedBox(width: 10.0),
-                                      //     IconButton(
-                                      //       color: Colors.grey.withOpacity(0.4),
-                                      //       icon: Icon(Icons.lock),
-                                      //       onPressed: () {
-                                      //         path =
-                                      //             "lib/assets/female_voice/Shhh-sound";
-                                      //       },
-                                      //     ),
-                                      //   ],
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -226,7 +212,12 @@ class _NotListeningPageState extends State<NotListeningPage> {
                 SizedBox(height: 58.0),
                 Text(
                   'Shush',
-                  style: mainText(),
+                  style: TextStyle(
+                    fontFamily: 'OpenSansCondensed',
+                    fontSize: 80.0,
+                    letterSpacing: 25.0,
+                    color: Colors.black,
+                  ),
                 ),
                 SizedBox(height: 30.0),
                 RaisedButton(
@@ -257,7 +248,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                 Container(
                   height: 40.0,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color:  Colors.white,
                     border: Border.all(color: Colors.yellow[800], width: 3.0),
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -289,6 +280,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                         fontSize: 20.0,
                         fontFamily: 'OpenSansCondensed',
                         letterSpacing: 3.0,
+                        color:  Colors.black,
                       ),
                     ),
                     SizedBox(width: 30.0),
@@ -298,6 +290,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                         fontSize: 20.0,
                         fontFamily: 'OpenSansCondensed',
                         letterSpacing: 3.0,
+                        color:  Colors.black,
                       ),
                     ),
                   ],

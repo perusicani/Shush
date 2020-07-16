@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:noise_meter/noise_meter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soundpool/soundpool.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -14,7 +15,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
   ListeningBloc() : super(ListeningInitial());
 
   Soundpool _soundpool = Soundpool();
-  int _alarmSoundStreamId;  //kao unused ne laži
+  int _alarmSoundStreamId; //kao unused ne laži
   Future<int> _soundId0, _soundId1, _soundId2, _soundId3;
 
   bool _isRecording = false;
@@ -29,30 +30,30 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
   int j = 0; //ako se predugo buffer drži 0-i (npr 300), ovo restarta i i sebe
   int played =
       -1; //how many times did the app play the sound (nakon cca 4 puta odustani)
-  // -1 da se slaže s indeksom zvuka --> manje varijabli ja se nadan
   int k = 0; //control var for AAAAAAA situation
 
-  String soundPath = "lib/assets/test_voice/Shhh-sound";
-  // String soundPathOG = "lib/assets/Shhh-sound.mp3";
+  //shit that gotta persist
+  bool gender;
+
+  String soundPath;
+
+  void checkSP() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('gender') == null) {  //ako ni namešćen, default
+      await prefs.setBool('gender', true);
+    } else {
+      gender = prefs.getBool('gender'); //ako je ulovi ga
+    }
+    print("gender set to " + gender.toString() + " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
+  }
+
 
   Future<int> _loadSound(String path) async {
     var asset = await rootBundle.load(path);
     return await _soundpool.load(asset);
   }
 
-  //  NEMRE
-  // Map<int, Future<int>> mapPlayedToSoundId = {
-  //   0 : _soundId0,
-  //   1 : _soundId1,
-  //   2 : _soundId2,
-  //   3 : _soundId3
-  // };
-
   Future<void> _playSound(int number) async {
-    //inače bez param int number
-    // var _alarmSound = await _soundId0;  //_soundId
-    // _alarmSoundStreamId = await _soundpool.play(_alarmSound);
-
     if (number == 0) {
       var _alarmSound = await _soundId0; //_soundId
       _alarmSoundStreamId = await _soundpool.play(_alarmSound);
@@ -69,7 +70,6 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
   }
 
   void onData(NoiseReading noiseReading) {
-    // this.setState(() {
     if (!this._isRecording) {
       this._isRecording = true;
     }
@@ -116,8 +116,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         played++;
         print("played value: " + played.toString());
         if (played < 4 && k == 0) {
-          //implementirat puštanje određenih zvuka iz voice packa (array ili čagodre)
-          _playSound(played); //bez param OG played
+          _playSound(played);
         } else {
           //  final sound played situation?
 
@@ -143,7 +142,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
     }
     // });
-    // print(noiseReading.toString());
+    print(noiseReading.toString());
   }
 
   void start() async {
@@ -179,11 +178,14 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     ListeningEvent event,
   ) async* {
     if (event is StartListening) {
+      await checkSP();
       // stupid fucking permission handled
       if (await Permission.microphone.request().isGranted) {
-        // soundPath = event.path;    TODO UNCOMMENT WHEN IMPLEMENTED FINAL SOUND PACKS
+        //ako ništa ne odabrano, default je male (aš san isto sexist UwU)
+        soundPath = event.path ?? "lib/assets/male_voice/Shhh-sound";    //TODO UNCOMMENT WHEN IMPLEMENTED FINAL SOUND PACKS
         volume = event.volume;
         originalVolume = event.volume; //pamti volume ki odredi user
+
         _soundId0 = _loadSound(soundPath + "0.mp3");
         print(soundPath + "0.mp3");
         _soundId1 = _loadSound(soundPath + "1.mp3");
@@ -193,20 +195,18 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         _soundId3 = _loadSound(soundPath + "3.mp3");
         print(soundPath + "3.mp3");
 
-        // og
-        // _soundId = _loadSound(soundPathOG);
-
         start();
         print("STARTED");
         yield Listening();
       } else {
-        yield NotListening();
+        yield NotListening(gender: gender);
       }
     }
     if (event is StopListening) {
+      await checkSP();
       stop();
       print("STOPPED");
-      yield NotListening();
+      yield NotListening(gender: gender);
     }
   }
 }

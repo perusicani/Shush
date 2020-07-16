@@ -6,6 +6,10 @@ abstract class ListeningState {}
 class ListeningInitial extends ListeningState {}
 
 //if i wanna change the ui
-class Listening extends ListeningState {}
+class Listening extends ListeningState {
+}
 
-class NotListening extends ListeningState {}
+class NotListening extends ListeningState {
+  final bool gender;
+  NotListening({this.gender});
+}

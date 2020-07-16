@@ -14,16 +14,16 @@ class ListeningPage extends StatefulWidget {
 }
 
 class _ListeningPageState extends State<ListeningPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: new Container(
         child: Stack(children: <Widget>[
           Center(
             child: SingleChildScrollView(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
@@ -49,8 +49,7 @@ class _ListeningPageState extends State<ListeningPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 30.0),
-                  // Text(buffer.toString()),
+                  SizedBox(height: 150.0),
                 ],
               ),
             ),
