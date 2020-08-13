@@ -26,11 +26,12 @@ dependencies:
   noise_meter: ^1.2.0+1
   soundpool: ^1.1.1
   permission_handler: ^5.0.1+1
-  bloc: ^5.0.0
-  flutter_bloc: ^5.0.0
+  bloc: ^6.0.0
+  flutter_bloc: ^6.0.0
   equatable: ^1.2.2
   simple_animations: ^2.2.1
   shared_preferences: ^0.5.8
+  percent_indicator: ^2.1.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

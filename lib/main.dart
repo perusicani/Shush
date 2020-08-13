@@ -1,3 +1,4 @@
+import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
 import 'package:Shush/pages/listening_page.dart';
 import 'package:Shush/pages/not_listening_page.dart';
@@ -19,20 +20,29 @@ class _MyAppState extends State<MyApp> {
   double volume;
   double buffer;
 
+  CurrentnoiselvlBloc _currentnoiselvlBloc;
+
   @override
   // ignore: missing_return
   Future<void> initState() {
     super.initState();
     _listeningBloc = ListeningBloc();
+    _currentnoiselvlBloc = CurrentnoiselvlBloc();
     _listeningBloc.add(StopListening());
+    _currentnoiselvlBloc.add(StartListeningCurrentNoiseLvl());
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shush',
-      home: BlocProvider<ListeningBloc>(
-        create: (context) => _listeningBloc,
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<ListeningBloc>( 
+              create: (context) => _listeningBloc),
+          BlocProvider<CurrentnoiselvlBloc>(
+              create: (context) => _currentnoiselvlBloc)
+        ],
         child: BlocBuilder<ListeningBloc, ListeningState>(
           builder: (context, state) {
             return AnimatedSwitcher(
@@ -41,9 +51,11 @@ class _MyAppState extends State<MyApp> {
                   ? NotListeningPage(
                       listeningBloc: _listeningBloc,
                       gender: state.gender ?? true,
+                      currentnoiselvlBloc: _currentnoiselvlBloc,
                     )
                   : ListeningPage(
                       listeningBloc: _listeningBloc,
+                      currentnoiselvlBloc: _currentnoiselvlBloc,
                     ),
             );
           },

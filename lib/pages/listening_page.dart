@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
 import 'package:Shush/styles/wave_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
@@ -7,7 +8,8 @@ import 'package:Shush/bloc/listening_bloc.dart';
 // ignore: must_be_immutable
 class ListeningPage extends StatefulWidget {
   final listeningBloc;
-  ListeningPage({this.listeningBloc});
+  final currentnoiselvlBloc;
+  ListeningPage({this.listeningBloc, this.currentnoiselvlBloc});
 
   @override
   _ListeningPageState createState() => _ListeningPageState();
@@ -29,6 +31,7 @@ class _ListeningPageState extends State<ListeningPage> {
                   RaisedButton(
                     onPressed: () async {
                       widget.listeningBloc.add(StopListening());
+                      widget.currentnoiselvlBloc.add(StartListeningCurrentNoiseLvl());
                     },
                     child: Text(
                       'Stop Listening',
