@@ -10,3 +10,5 @@ abstract class CurrentnoiselvlEvent extends Equatable {
 class StartListeningCurrentNoiseLvl extends CurrentnoiselvlEvent {} 
 
 class StopListeningCurrentNoiseLvl extends CurrentnoiselvlEvent {} 
+
+class UpdateCurrentNoiseLvl extends CurrentnoiselvlEvent {}

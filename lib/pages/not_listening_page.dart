@@ -318,6 +318,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                         BlocBuilder<CurrentnoiselvlBloc, CurrentnoiselvlState>(
                       builder: (context, state) {
                         if (state is ListeningCurrentNoiseLvl) {
+                          print("state data is: " + state.data.toString());
                           return LinearPercentIndicator(
                             width: 320.0,
                             lineHeight: 2.0,
@@ -328,6 +329,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                             animateFromLastPercent: true,
                           );
                         }
+                        return Container();
                       },
                     ),
                     // child: LinearPercentIndicator(

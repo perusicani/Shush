@@ -10,6 +10,6 @@ abstract class CurrentnoiselvlState extends Equatable {
 class CurrentnoiselvlInitial extends CurrentnoiselvlState {}
 
 class ListeningCurrentNoiseLvl extends CurrentnoiselvlState {
-  double data;
+  final double data;
   ListeningCurrentNoiseLvl({this.data});
 }

@@ -24,10 +24,10 @@ class CurrentnoiselvlBloc
     }
   }
 
-  Stream<void> something(double data) async* {
-    print("#data in something:" + data.toString());
-    yield ListeningCurrentNoiseLvl(data: data);
-  }
+  // Stream<void> something(double data) async* {
+  //   print("#data in something:" + data.toString());
+  //   yield ListeningCurrentNoiseLvl(data: data);
+  // }
 
 
   void onData(NoiseReading noiseReading) {
@@ -39,7 +39,8 @@ class CurrentnoiselvlBloc
     data = noiseReading.meanDecibel;
     print("current noise data = " + data.toString());
 
-    something(data);
+    // something(data);
+    add(UpdateCurrentNoiseLvl());
   }
 
   void stopRecorder() async {
@@ -66,6 +67,10 @@ class CurrentnoiselvlBloc
     }
     if (event is StopListeningCurrentNoiseLvl) {
       stopRecorder();
+    }
+    if (event is UpdateCurrentNoiseLvl) {} {
+      print("data in yield: " +data.toString());
+      yield ListeningCurrentNoiseLvl(data: data);
     }
   }
 }
