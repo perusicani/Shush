@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/rendering.dart';
 import 'package:noise_meter/noise_meter.dart';
 
 part 'currentnoiselvl_event.dart';
@@ -37,7 +38,7 @@ class CurrentnoiselvlBloc
     }
 
     data = noiseReading.meanDecibel;
-    print("current noise data = " + data.toString());
+    // print("current noise data = " + data.toString());
 
     // something(data);
     add(UpdateCurrentNoiseLvl());
@@ -69,7 +70,7 @@ class CurrentnoiselvlBloc
       stopRecorder();
     }
     if (event is UpdateCurrentNoiseLvl) {} {
-      print("data in yield: " +data.toString());
+      // print("data in yield: " + data.toString());
       yield ListeningCurrentNoiseLvl(data: data);
     }
   }

@@ -12,4 +12,7 @@ class CurrentnoiselvlInitial extends CurrentnoiselvlState {}
 class ListeningCurrentNoiseLvl extends CurrentnoiselvlState {
   final double data;
   ListeningCurrentNoiseLvl({this.data});
+
+  @override
+  List<Object> get props => [data];
 }

@@ -332,17 +332,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                         return Container();
                       },
                     ),
-                    // child: LinearPercentIndicator(
-                    //   width: 320.0,
-                    //   lineHeight: 2.0,
-                    //   percent:
-                    //       currentNoiseLvl, //(widget.currentnoiselvlBloc.data / 120),
-                    //   // percent: (state.data / 120),
-                    //   backgroundColor: Colors.grey[300],
-                    //   progressColor: Colors.yellow[800],
-                    //   animation: true,
-                    //   animateFromLastPercent: true,
-                    // ),
                   ),
                 ),
                 SizedBox(
