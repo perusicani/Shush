@@ -81,8 +81,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       j--;
     }
 
-    print("buffer value: " + buffer.toString());
-    print("volume value: " + volume.toString());
+    // print("buffer value: " + buffer.toString());
+    // print("volume value: " + volume.toString());
 
     if (noiseReading.meanDecibel >= volume) {
       buffer++;
@@ -142,7 +142,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
     }
     // });
-    print(noiseReading.toString());
+    // print(noiseReading.toString());
   }
 
   void start() async {

@@ -36,7 +36,7 @@ class _ListeningPageState extends State<ListeningPage> {
                     child: Text(
                       'Stop Listening',
                       style: TextStyle(
-                        fontSize: 25.0,
+                        fontSize: MediaQuery.of(context).size.height * 0.03,
                         fontFamily: 'OpenSansCondensed',
                         letterSpacing: 4.0,
                       ),
@@ -59,16 +59,16 @@ class _ListeningPageState extends State<ListeningPage> {
           ),
           onBottom(AnimatedWave(
             height: 580,
-            speed: 1.0,
+            speed: 0.7,
           )),
           onBottom(AnimatedWave(
             height: 320,
-            speed: 0.9,
+            speed: 0.5,
             offset: pi,
           )),
           onBottom(AnimatedWave(
             height: 420,
-            speed: 1.2,
+            speed: 0.9,
             offset: pi / 2,
           )),
         ]),

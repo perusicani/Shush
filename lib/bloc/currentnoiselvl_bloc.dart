@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/rendering.dart';
 import 'package:noise_meter/noise_meter.dart';
 
 part 'currentnoiselvl_event.dart';
@@ -25,12 +24,6 @@ class CurrentnoiselvlBloc
     }
   }
 
-  // Stream<void> something(double data) async* {
-  //   print("#data in something:" + data.toString());
-  //   yield ListeningCurrentNoiseLvl(data: data);
-  // }
-
-
   void onData(NoiseReading noiseReading) {
     
     if (!this._isRecording) {
@@ -40,7 +33,6 @@ class CurrentnoiselvlBloc
     data = noiseReading.meanDecibel;
     // print("current noise data = " + data.toString());
 
-    // something(data);
     add(UpdateCurrentNoiseLvl());
   }
 
@@ -50,9 +42,7 @@ class CurrentnoiselvlBloc
         _noiseSubscription.cancel();
         _noiseSubscription = null;
       }
-      // this.setState(() {
       this._isRecording = false;
-      // });
     } catch (err) {
       print('stopRecorder error: $err');
     }
@@ -63,10 +53,12 @@ class CurrentnoiselvlBloc
     CurrentnoiselvlEvent event,
   ) async* {
     if (event is StartListeningCurrentNoiseLvl) {
+      print("STARTED CURRENT RECORDING JUST SO I KNOW THANK YOU");
       start();
       yield ListeningCurrentNoiseLvl(data: data);
     }
     if (event is StopListeningCurrentNoiseLvl) {
+      print("STOPPED CURRENT RECORDING JUST SO I KNOW THANK YOU");
       stopRecorder();
     }
     if (event is UpdateCurrentNoiseLvl) {} {
