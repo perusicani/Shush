@@ -333,6 +333,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                       ),
                       child: SliderTheme(
                         data: SliderThemeData(
+                          overlayColor: Colors.yellow[800].withOpacity(0.15),
                           thumbColor: Colors.yellow[800],
                           activeTrackColor: Colors.yellow[800].withOpacity(0.3),
                           inactiveTrackColor: Colors.grey[300].withOpacity(0.5),
