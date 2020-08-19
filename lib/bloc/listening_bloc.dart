@@ -43,6 +43,12 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       await prefs.setBool('gender', true);
     } else {
       gender = prefs.getBool('gender'); //ako je ulovi ga
+      if (gender) {
+        soundPath = "lib/assets/male_voice/Shhh-sound";
+      } else {
+        soundPath = "lib/assets/female_voice/Shhh-sound";
+      }
+      print("Soundpath in bloc is : " + soundPath);
     }
     print("gender set to " + gender.toString() + " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
   }
@@ -85,7 +91,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     // print("volume value: " + volume.toString());
 
     if (noiseReading.meanDecibel >= volume) {
-      buffer++;
+      buffer += 0.2;
 
       if (j > 300) {
         k = 7; //ekvivalent čekanja sekunde
@@ -178,11 +184,12 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     ListeningEvent event,
   ) async* {
     if (event is StartListening) {
+      // ignore: await_only_futures
       await checkSP();
       // stupid fucking permission handled
       if (await Permission.microphone.request().isGranted) {
         //ako ništa ne odabrano, default je male (aš san isto sexist UwU)
-        soundPath = event.path ?? "lib/assets/male_voice/Shhh-sound";    //TODO UNCOMMENT WHEN IMPLEMENTED FINAL SOUND PACKS
+        soundPath ??= "lib/assets/male_voice/Shhh-sound";   
         volume = event.volume;
         originalVolume = event.volume; //pamti volume ki odredi user
 
@@ -195,6 +202,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         _soundId3 = _loadSound(soundPath + "3.mp3");
         print(soundPath + "3.mp3");
 
+        buffer = 0;
+
         start();
         print("STARTED");
         yield Listening();
@@ -203,6 +212,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
     }
     if (event is StopListening) {
+      // ignore: await_only_futures
       await checkSP();
       stop();
       print("STOPPED");

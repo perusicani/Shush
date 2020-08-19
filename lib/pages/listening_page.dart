@@ -1,9 +1,9 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
-import 'package:Shush/styles/wave_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 // ignore: must_be_immutable
 class ListeningPage extends StatefulWidget {
@@ -16,11 +16,27 @@ class ListeningPage extends StatefulWidget {
 }
 
 class _ListeningPageState extends State<ListeningPage> {
+  bool _clickable = false;
+
+  @override
+  void initState() {
+    Timer(
+      Duration(seconds: 2),
+      () {
+        _clickable = true;
+        print("Šanko pederčina");
+        setState(() {});
+      },
+    );
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: new Container(
+      body: Container(
         child: Stack(children: <Widget>[
           Center(
             child: SingleChildScrollView(
@@ -29,10 +45,13 @@ class _ListeningPageState extends State<ListeningPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton(
-                    onPressed: () async {
-                      widget.listeningBloc.add(StopListening());
-                      widget.currentnoiselvlBloc.add(StartListeningCurrentNoiseLvl());
-                    },
+                    onPressed: _clickable
+                        ? () async {
+                            widget.listeningBloc.add(StopListening());
+                            widget.currentnoiselvlBloc
+                                .add(StartListeningCurrentNoiseLvl());
+                          }
+                        : null,
                     child: Text(
                       'Stop Listening',
                       style: TextStyle(
@@ -43,6 +62,7 @@ class _ListeningPageState extends State<ListeningPage> {
                     ),
                     padding: EdgeInsets.all(14.0),
                     color: Colors.white,
+                    disabledColor: Colors.white,
                     textColor: Colors.yellow[800],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
@@ -52,25 +72,31 @@ class _ListeningPageState extends State<ListeningPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 150.0),
+                  SizedBox(height: 20.0),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Lottie.asset(
+                        'lib/assets/lottie/24425-sound-yellow.json'),
+                  ),
                 ],
               ),
             ),
           ),
-          onBottom(AnimatedWave(
-            height: 580,
-            speed: 0.7,
-          )),
-          onBottom(AnimatedWave(
-            height: 320,
-            speed: 0.5,
-            offset: pi,
-          )),
-          onBottom(AnimatedWave(
-            height: 420,
-            speed: 0.9,
-            offset: pi / 2,
-          )),
+          // onBottom(AnimatedWave(
+          //   height: 580,
+          //   speed: 1.0,
+          // )),
+          // onBottom(AnimatedWave(
+          //   height: 320,
+          //   speed: 0.5,
+          //   offset: pi,
+          // )),
+          // onBottom(AnimatedWave(
+          //   height: 420,
+          //   speed: 0.7,
+          //   offset: pi / 2,
+          // )),
         ]),
       ),
     );

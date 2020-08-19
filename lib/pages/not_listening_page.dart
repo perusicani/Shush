@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
@@ -22,6 +24,22 @@ class _NotListeningPageState extends State<NotListeningPage> {
   Color unselectedColor = Colors.grey.withOpacity(0.4);
   Color selectedColor = Colors.yellow[800].withOpacity(0.6);
   double currentNoiseLvl = 0.7; //scale to range 0.0-1.0
+
+  bool _clickable = false;
+
+  @override
+  void initState() {
+    Timer(
+      Duration(seconds: 2),
+      () {
+        _clickable = true;
+        print("Šanko pederčina");
+        setState(() {});
+      },
+    );
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +84,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                         child: Text(
                                           "App description",
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.height * 0.035,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.035,
                                             fontFamily: 'OpenSansCondensed',
                                             letterSpacing: 4.0,
                                             color: Colors.yellow[800]
@@ -81,10 +102,14 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                           child: Text(
                                             "The point is you should shut up",
                                             style: TextStyle(
-                                              fontSize: MediaQuery.of(context).size.height * 0.03,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.03,
                                               fontFamily: 'OpenSansCondensed',
                                               letterSpacing: 2.0,
-                                              color: Colors.grey.withOpacity(0.8),
+                                              color:
+                                                  Colors.grey.withOpacity(0.8),
                                             ),
                                           ),
                                         ),
@@ -125,7 +150,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                         child: Text(
                                           "Voice pack",
                                           style: TextStyle(
-                                            fontSize: MediaQuery.of(context).size.height * 0.03,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.03,
                                             fontFamily: 'OpenSansCondensed',
                                             letterSpacing: 4.0,
                                             color: Colors.yellow[800]
@@ -142,7 +170,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                             child: Text(
                                               "Male voice",
                                               style: TextStyle(
-                                                fontSize: MediaQuery.of(context).size.height * 0.03,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.03,
                                                 fontFamily: 'OpenSansCondensed',
                                                 letterSpacing: 4.0,
                                                 color: Colors.grey
@@ -180,7 +211,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                             child: Text(
                                               "Female voice",
                                               style: TextStyle(
-                                                fontSize: MediaQuery.of(context).size.height * 0.03,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.03,
                                                 fontFamily: 'OpenSansCondensed',
                                                 letterSpacing: 4.0,
                                                 color: Colors.grey
@@ -199,10 +233,8 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                                   await SharedPreferences
                                                       .getInstance();
                                               prefs.setBool('gender', false);
-                                              // path =
-                                              //     "lib/assets/female_voice/Shhh-sound";  //TODO uncomment fem and del test when has voice pack
                                               path =
-                                                  "lib/assets/test_voice/Shhh-sound";
+                                                  "lib/assets/female_voice/Shhh-sound";
                                               print(path);
                                               Navigator.pop(context);
                                               widget.listeningBloc.add(
@@ -234,12 +266,14 @@ class _NotListeningPageState extends State<NotListeningPage> {
                 ),
                 SizedBox(height: 30.0),
                 RaisedButton(
-                  onPressed: () async {
-                    widget.listeningBloc
-                        .add(StartListening(volume: volume, path: path));
-                    widget.currentnoiselvlBloc
-                        .add(StopListeningCurrentNoiseLvl());
-                  },
+                  onPressed: _clickable
+                      ? () async {
+                          widget.listeningBloc
+                              .add(StartListening(volume: volume, path: path));
+                          widget.currentnoiselvlBloc
+                              .add(StopListeningCurrentNoiseLvl());
+                        }
+                      : null,
                   child: Text(
                     'Start Listening',
                     style: TextStyle(
@@ -250,6 +284,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                   ),
                   padding: EdgeInsets.all(14.0),
                   color: Colors.white,
+                  disabledColor: Colors.white,
                   textColor: Colors.yellow[800],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -265,7 +300,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                     Container(
                       height: 40.0,
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(17.0, 0, 17.0, 0),
+                        padding: EdgeInsets.fromLTRB(19.0, 0, 17.0, 0),
                         child: BlocBuilder<CurrentnoiselvlBloc,
                             CurrentnoiselvlState>(
                           builder: (context, state) {
@@ -274,7 +309,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                               return LinearPercentIndicator(
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 lineHeight: 2.0,
-                                percent: ((state.data ?? 1) / 100),
+                                percent: ((state.data ?? 0) / 100),
                                 backgroundColor:
                                     Colors.grey[300].withOpacity(0.7),
                                 progressColor: Colors.yellow[900],
@@ -288,7 +323,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                       ),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: MediaQuery.of(context).size.width * 0.81,
                       height: 40.0,
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.5),
@@ -299,7 +334,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                       child: SliderTheme(
                         data: SliderThemeData(
                           thumbColor: Colors.yellow[800],
-                          activeTrackColor: Colors.yellow[800].withOpacity(0.5),
+                          activeTrackColor: Colors.yellow[800].withOpacity(0.3),
                           inactiveTrackColor: Colors.grey[300].withOpacity(0.5),
                         ),
                         child: Slider(
@@ -349,43 +384,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                 SizedBox(
                   height: 40.0,
                 ),
-                // Container(
-                //   height: 40.0,
-                //   child: Padding(
-                //     padding: EdgeInsets.fromLTRB(17.0, 0, 17.0, 0),
-                //     child:
-                //         BlocBuilder<CurrentnoiselvlBloc, CurrentnoiselvlState>(
-                //       builder: (context, state) {
-                //         if (state is ListeningCurrentNoiseLvl) {
-                //           print("state data is: " + state.data.toString());
-                //           return LinearPercentIndicator(
-                //             width: 320.0,
-                //             lineHeight: 2.0,
-                //             percent: ((state.data ?? 1) / 100),
-                //             backgroundColor: Colors.grey[300],
-                //             // progressColor: Colors.yellow[800],
-                //             progressColor: Colors.blue,
-                //             animation: true,
-                //             animateFromLastPercent: true,
-                //           );
-                //         }
-                //         return Container();
-                //       },
-                //     ),
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: 20.0,
-                // ),
-                // Text(
-                //   "current noise level",
-                //   style: TextStyle(
-                //     fontSize: 20.0,
-                //     fontFamily: 'OpenSansCondensed',
-                //     letterSpacing: 3.0,
-                //     color: Colors.black,
-                //   ),
-                // ),
                 //TODO remove/comment later when logic done
                 SizedBox(height: 20.0),
                 RaisedButton(
