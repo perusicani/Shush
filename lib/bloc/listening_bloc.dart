@@ -91,7 +91,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     // print("volume value: " + volume.toString());
 
     if (noiseReading.meanDecibel >= volume) {
-      buffer += 0.2;
+      buffer += 0.5;
 
       if (j > 300) {
         k = 7; //ekvivalent čekanja sekunde
@@ -147,6 +147,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
             "\n");
       }
     }
+    add(UpdateListening());
     // });
     // print(noiseReading.toString());
   }
@@ -190,7 +191,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       if (await Permission.microphone.request().isGranted) {
         //ako ništa ne odabrano, default je male (aš san isto sexist UwU)
         soundPath ??= "lib/assets/male_voice/Shhh-sound";   
-        volume = event.volume;
+        volume = event.volume; 
         originalVolume = event.volume; //pamti volume ki odredi user
 
         _soundId0 = _loadSound(soundPath + "0.mp3");
@@ -217,6 +218,10 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       stop();
       print("STOPPED");
       yield NotListening(gender: gender);
+    }
+    if (event is UpdateListening) {
+      // print("on yield update listening buffer value = " + buffer.toString());
+      yield UpdatedListening(buffer: buffer);
     }
   }
 }

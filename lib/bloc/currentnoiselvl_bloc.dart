@@ -31,7 +31,6 @@ class CurrentnoiselvlBloc
     }
 
     data = noiseReading.meanDecibel;
-    // print("current noise data = " + data.toString());
 
     add(UpdateCurrentNoiseLvl());
   }
@@ -61,8 +60,8 @@ class CurrentnoiselvlBloc
       print("STOPPED CURRENT RECORDING JUST SO I KNOW THANK YOU");
       stopRecorder();
     }
-    if (event is UpdateCurrentNoiseLvl) {} {
-      // print("data in yield: " + data.toString());
+    if (event is UpdateCurrentNoiseLvl) {
+      // print("current noise data = " + data.toString());
       yield ListeningCurrentNoiseLvl(data: data);
     }
   }
