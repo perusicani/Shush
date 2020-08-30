@@ -5,7 +5,6 @@ abstract class ListeningState {}
 
 class ListeningInitial extends ListeningState {}
 
-//if i wanna change the ui
 class Listening extends ListeningState {}
 
 class NotListening extends ListeningState {
@@ -15,8 +14,9 @@ class NotListening extends ListeningState {
 
 class UpdatedListening extends ListeningState{
   final double buffer;
-  UpdatedListening({this.buffer});
+  final double data;
+  UpdatedListening({this.buffer, this.data});
 
 
-  List<Object> get props => [buffer];
+  List<Object> get props => [buffer, data];
 }

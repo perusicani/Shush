@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "Description de l'application",
+    "descriptionContent": "Le fait est que vous devriez vous taire",
+    "voicePackTitle": "Pack de voix",
+    "maleVoice": "Voix masculine",
+    "femaleVoice": "Voix féminine",
+    "startButton": "Commence à écouter",
+    "stopButton": "Arrêtez d'écouter",
+    "inputVolume": "volume d'entrée en dB:",
+    "buffer": "rekoše google translate il tampon?",
+    "hr": "Croate",
+    "en": "Anglais",
+    "de": "Allemand",
+    "fr": "Français",
+    "es": "Espagnol",
+    "it": "Italien",
+    "language": "Langue" 
+}

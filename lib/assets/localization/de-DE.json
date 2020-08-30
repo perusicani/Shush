@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "App Beschreibung",
+    "descriptionContent": "Der Punkt ist, dass Sie den Mund halten sollten",
+    "voicePackTitle": "Sprachpaket",
+    "maleVoice": "Männerstimme",
+    "femaleVoice": "Frauenstimme",
+    "startButton": "Beginne zuzuhören",
+    "stopButton": "Hör auf zuzuhören",
+    "inputVolume": "Eingangslautstärke in dB:",
+    "buffer": "verdammt nochmal, wie sagt mann buffer auf Deutsch jetzt???",
+    "hr": "Kroatisch",
+    "en": "Englisch",
+    "de": "Deutsch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "it": "Italienisch",
+    "language": "Sprache" 
+}

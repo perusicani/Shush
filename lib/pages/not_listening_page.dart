@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
 import 'package:Shush/pages/listening_page.dart';
+import 'package:Shush/pages/settings_page.dart';
 import 'package:Shush/provider/theme_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class NotListeningPage extends StatefulWidget {
@@ -20,14 +21,13 @@ class NotListeningPage extends StatefulWidget {
 }
 
 class _NotListeningPageState extends State<NotListeningPage> {
-  double volume = 70.0;
+  double volume = 90.0;
   bool gender;
   Color unselectedColor = Colors.grey.withOpacity(0.4);
   Color selectedColor = Colors.yellow[800].withOpacity(0.6);
   double currentNoiseLvl = 0.7; //scale to range 0.0-1.0
 
   bool _clickable = false;
-  bool isDark;
 
   CurrentnoiselvlBloc currentnoiselvlBloc;
 
@@ -49,7 +49,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
       create: (context) => currentnoiselvlBloc,
       child: Scaffold(
@@ -103,13 +102,13 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                       children: [
                                         Center(
                                           child: Text(
-                                            "App description",
+                                            'descriptionTitle'.tr().toString(),
+                                            textAlign: TextAlign.center,
                                             style: TextStyle(
                                               fontSize: MediaQuery.of(context)
                                                       .size
                                                       .height *
                                                   0.035,
-                                              fontFamily: 'OpenSansCondensed',
                                               letterSpacing: 4.0,
                                               color: Colors.yellow[800]
                                                   .withOpacity(0.7),
@@ -121,13 +120,15 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                           child: Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              "The point is you should shut up",
+                                              'descriptionContent'
+                                                  .tr()
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: MediaQuery.of(context)
                                                         .size
                                                         .height *
                                                     0.03,
-                                                fontFamily: 'OpenSansCondensed',
                                                 letterSpacing: 2.0,
                                                 color: Colors.grey
                                                     .withOpacity(0.8),
@@ -144,129 +145,18 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           );
                         },
                       ),
+                      //here was the dialog button if necessary to return, hopefully not it was disgusting
                       SizedBox(width: 30.0),
                       IconButton(
                         icon: Icon(Icons.settings),
                         color: Colors.grey.withOpacity(0.4),
                         iconSize: MediaQuery.of(context).size.height * 0.035,
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Dialog(
-                                insetAnimationCurve: Curves.ease,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                                child: Container(
-                                  height: 250,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            "Voice pack",
-                                            style: TextStyle(
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03,
-                                              fontFamily: 'OpenSansCondensed',
-                                              letterSpacing: 4.0,
-                                              color: Colors.yellow[800]
-                                                  .withOpacity(0.7),
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(height: 20.0),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Center(
-                                              child: Text(
-                                                "Male voice",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.03,
-                                                  fontFamily:
-                                                      'OpenSansCondensed',
-                                                  letterSpacing: 4.0,
-                                                  color: Colors.grey
-                                                      .withOpacity(0.8),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 20.0),
-                                            IconButton(
-                                              color: gender ?? true
-                                                  ? selectedColor
-                                                  : unselectedColor,
-                                              icon: Icon(Icons.check),
-                                              onPressed: () async {
-                                                gender = true;
-                                                SharedPreferences prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                prefs.setBool('gender', true);
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10.0),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Center(
-                                              child: Text(
-                                                "Female voice",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.03,
-                                                  fontFamily:
-                                                      'OpenSansCondensed',
-                                                  letterSpacing: 4.0,
-                                                  color: Colors.grey
-                                                      .withOpacity(0.8),
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(width: 20.0),
-                                            IconButton(
-                                              color: gender ?? true
-                                                  ? unselectedColor
-                                                  : selectedColor,
-                                              icon: Icon(Icons.check),
-                                              onPressed: () async {
-                                                gender = false;
-                                                SharedPreferences prefs =
-                                                    await SharedPreferences
-                                                        .getInstance();
-                                                prefs.setBool('gender', false);
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SettingsPage(),
+                            ),
                           );
                         },
                       ),
@@ -275,13 +165,13 @@ class _NotListeningPageState extends State<NotListeningPage> {
                   SizedBox(height: 58.0),
                   Text(
                     'Shush',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontFamily: 'OpenSansCondensed',
                       fontSize: MediaQuery.of(context).size.height * 0.07,
                       letterSpacing: 25.0,
                     ),
                   ),
-                  SizedBox(height: 30.0),
+                  SizedBox(height: 50.0),
                   RaisedButton(
                     onPressed: _clickable
                         ? () async {
@@ -303,10 +193,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           }
                         : null,
                     child: Text(
-                      'Start Listening',
+                      'startButton'.tr().toString(),
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: MediaQuery.of(context).size.height * 0.03,
-                        fontFamily: 'OpenSansCondensed',
                         letterSpacing: 4.0,
                       ),
                     ),
@@ -333,11 +223,12 @@ class _NotListeningPageState extends State<NotListeningPage> {
                               if (state is ListeningCurrentNoiseLvl) {
                                 // print(
                                 //     "state data is: " + state.data.toString());
-                                return LinearPercentIndicator(
+                                return LinearPercentIndicator(  //TODO same problem with the indicator, goes to 100 but slider can choose up to 120 dB
+                                  animationDuration: 200,
                                   width:
                                       MediaQuery.of(context).size.width * 0.7,
                                   lineHeight: 2.0,
-                                  percent: ((state.data ?? 0) / 100),
+                                  percent: ((state.data ?? 0) / 141), //da se slaže s input sliderun
                                   backgroundColor:
                                       Colors.grey[300].withOpacity(0.0),
                                   progressColor: Colors.yellow[900],
@@ -371,8 +262,8 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           ),
                           child: Slider(
                             min:
-                                20.0, //sidenote, 50.0 je već otprilike šum sobe kad se niš ne događa
-                            max: 120.0, //bar ča se tiče PCMa mog mobitela
+                                40.0, //sidenote, 50.0 je već otprilike šum sobe kad se niš ne događa
+                            max: 140.0, //bar ča se tiče PCMa mog mobitela
                             value: volume,
                             onChanged: (newVolume) {
                               setState(() => volume = newVolume);
@@ -393,10 +284,10 @@ class _NotListeningPageState extends State<NotListeningPage> {
                       ),
                       SizedBox(width: 20.0),
                       Text(
-                        'dB input volume: ',
+                        'inputVolume'.tr().toString(),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.04,
-                          fontFamily: 'OpenSansCondensed',
                           letterSpacing: 3.0,
                         ),
                       ),
@@ -405,7 +296,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                         volume.round().toString(),
                         style: TextStyle(
                           fontSize: MediaQuery.of(context).size.width * 0.04,
-                          fontFamily: 'OpenSansCondensed',
                           letterSpacing: 3.0,
                         ),
                       ),
@@ -422,7 +312,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                       print("stopped finally fucker");
                     },
                     child: Text("stop current"),
-                  )
+                  ),
                 ],
               ),
             ),

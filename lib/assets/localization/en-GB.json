@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "App description",
+    "descriptionContent": "The point is you should shut up",
+    "voicePackTitle": "Voice pack",
+    "maleVoice": "Male voice",
+    "femaleVoice": "Female voice",
+    "startButton": "Start listening",
+    "stopButton": "Stop Listening",
+    "inputVolume": "input volume in dB:",
+    "buffer": "buffer",
+    "hr": "Croatian",
+    "en": "English",
+    "de": "German",
+    "fr": "French",
+    "es": "Spanish",
+    "it": "Italian",
+    "language": "Language"
+}

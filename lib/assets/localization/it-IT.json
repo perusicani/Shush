@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "Descrizione dell'app",
+    "descriptionContent": "Il punto è che dovresti stare zitto",
+    "voicePackTitle": "Pacchetto vocale",
+    "maleVoice": "Voce maschile",
+    "femaleVoice": "Voce femminile",
+    "startButton": "Inizia ad ascoltare",
+    "stopButton": "Smetti di ascoltare",
+    "inputVolume": "volume di ingresso in dB:",
+    "buffer": "per l'amor del cazzo???",
+    "hr": "Croato",
+    "en": "Inglese",
+    "de": "Tedesco",
+    "fr": "Francese",
+    "es": "Spagnolo",
+    "it": "Italiano",
+    "language": "Lingua" 
+}

@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "Opis aplikacije",
+    "descriptionContent": "Poanta je da ušutiš",
+    "voicePackTitle": "Glasovi",
+    "maleVoice": "Muški glas",
+    "femaleVoice": "Ženski glas",
+    "startButton": "Započni slušanje",
+    "stopButton": "Prekini slušanje",
+    "inputVolume": "razina glasnoće u dB:",
+    "buffer": "kako reć buffer na hrv?",
+    "hr": "Hrvatski",
+    "en": "Engleski",
+    "de": "Njemački",
+    "fr": "Francuski",
+    "es": "Španjolski",
+    "it": "Talijanski",
+    "language": "Jezik" 
+}

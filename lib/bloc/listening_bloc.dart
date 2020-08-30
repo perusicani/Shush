@@ -25,6 +25,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
   double originalVolume;
   bool playing = false;
 
+  double data;
+
   double buffer = 0;
   int i = 40; //inicijalih 6 sec
   int j = 0; //ako se predugo buffer drži 0-i (npr 300), ovo restarta i i sebe
@@ -39,7 +41,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
 
   void checkSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool('gender') == null) {  //ako ni namešćen, default
+    if (prefs.getBool('gender') == null) {
+      //ako ni namešćen, default
       await prefs.setBool('gender', true);
     } else {
       gender = prefs.getBool('gender'); //ako je ulovi ga
@@ -50,9 +53,10 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
       print("Soundpath in bloc is : " + soundPath);
     }
-    print("gender set to " + gender.toString() + " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
+    print("gender set to " +
+        gender.toString() +
+        " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
   }
-
 
   Future<int> _loadSound(String path) async {
     var asset = await rootBundle.load(path);
@@ -91,7 +95,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     // print("volume value: " + volume.toString());
 
     if (noiseReading.meanDecibel >= volume) {
-      buffer += 0.5;
+      if (buffer < 140) buffer += 0.5;  //TODO not good fix, indicator goes only to 100 but dB goes above
 
       if (j > 300) {
         k = 7; //ekvivalent čekanja sekunde
@@ -147,6 +151,9 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
             "\n");
       }
     }
+
+    data = noiseReading.meanDecibel;
+
     add(UpdateListening());
     // });
     // print(noiseReading.toString());
@@ -190,8 +197,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       // stupid fucking permission handled
       if (await Permission.microphone.request().isGranted) {
         //ako ništa ne odabrano, default je male (aš san isto sexist UwU)
-        soundPath ??= "lib/assets/male_voice/Shhh-sound";   
-        volume = event.volume; 
+        soundPath ??= "lib/assets/male_voice/Shhh-sound";
+        volume = event.volume;
         originalVolume = event.volume; //pamti volume ki odredi user
 
         _soundId0 = _loadSound(soundPath + "0.mp3");
@@ -221,7 +228,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     }
     if (event is UpdateListening) {
       // print("on yield update listening buffer value = " + buffer.toString());
-      yield UpdatedListening(buffer: buffer);
+      // print("on yield updatelistening data value = " + data.toString());
+      yield UpdatedListening(buffer: buffer, data: data);
     }
   }
 }

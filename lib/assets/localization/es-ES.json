@@ -1,0 +1,18 @@
+{
+    "descriptionTitle": "Descripción de la aplicación",
+    "descriptionContent": "El punto es que deberías callarte",
+    "voicePackTitle": "Paquete de voz",
+    "maleVoice": "Voz masculina",
+    "femaleVoice": "Voz femenina",
+    "startButton": "Empieza a escuchar",
+    "stopButton": "Deja de escuchar",
+    "inputVolume": "volumen de entrada en dB:",
+    "buffer": "nightmare buffer",
+    "hr": "el Croata",
+    "en": "el Inglés",
+    "de": "el Alemán",
+    "fr": "el Francés",
+    "es": "el Español",
+    "it": "el Italiano",
+    "language": "Idioma" 
+}

@@ -34,6 +34,7 @@ dependencies:
   percent_indicator: ^2.1.5
   lottie: ^0.5.1
   provider: ^4.3.2+1
+  easy_localization: ^2.3.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -64,7 +65,12 @@ flutter:
     - lib/assets/male_voice/Shhh-sound1.mp3
     - lib/assets/male_voice/Shhh-sound2.mp3
     - lib/assets/male_voice/Shhh-sound3.mp3
-    - lib/assets/lottie/24425-sound-yellow.json
+    - lib/assets/localization/en-GB.json
+    - lib/assets/localization/hr-HR.json
+    - lib/assets/localization/it-IT.json
+    - lib/assets/localization/fr-FR.json
+    - lib/assets/localization/es-ES.json
+    - lib/assets/localization/de-DE.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

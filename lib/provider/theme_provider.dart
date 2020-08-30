@@ -6,12 +6,16 @@ ThemeData light = ThemeData(
   brightness: Brightness.light,
   primaryColor: Colors.yellow[800],
   buttonColor: Colors.white,
+  disabledColor: Colors.white,
+  fontFamily: 'OpenSansCondensed',
 );
 
 ThemeData dark = ThemeData(
   brightness: Brightness.dark,
   primaryColor: Colors.yellow[800],
   buttonColor: Colors.grey[850],
+  disabledColor: Colors.grey[850],
+  fontFamily: 'OpenSansCondensed',
 );
 
 class ThemeNotifier extends ChangeNotifier {
