@@ -59,7 +59,7 @@ class _ListeningPageState extends State<ListeningPage> {
               child: Stack(
                 children: <Widget>[
                   Positioned(
-                    top: 150,
+                    top: 120,
                     left: 100,
                     right: 100,
                     child: RaisedButton(
@@ -106,7 +106,7 @@ class _ListeningPageState extends State<ListeningPage> {
                     ),
                   ),
                   Positioned(
-                    bottom: 200,
+                    bottom: 150,
                     left: 100,
                     right: 100,
                     child: Text(
@@ -119,7 +119,7 @@ class _ListeningPageState extends State<ListeningPage> {
                     ),
                   ),
                   Positioned(
-                    bottom: 150,
+                    bottom: 100,
                     left: 10,
                     child: Container(
                       child: Padding(

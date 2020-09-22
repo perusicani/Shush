@@ -16,11 +16,16 @@ class _SettingsPageState extends State<SettingsPage> {
 
   String dropDownValue = '-'; //rabit će presistat, tj sranje
 
+  String lang;
+
   void checkSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       gender = prefs.getBool('gender');
     });
+    
+    await prefs.setString('lang', lang);
+    print("language in SP : " + prefs.getString('lang').toString());
   }
 
   @override
@@ -164,6 +169,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 );
               }).toList(),
               onChanged: (String newValue) {
+                checkSP();
                 setState(() {
                   if (newValue != '-')
                     // EasyLocalization.of(context).locale = Locale(toShort["$newValue"].toString(), toLocale[toShort["$newValue"].toString()].toString());
@@ -171,8 +177,9 @@ class _SettingsPageState extends State<SettingsPage> {
                         toShort["$newValue"].toString(),
                         toLocale[toShort["$newValue"]].toString());
                   dropDownValue = newValue;
-
                   //tu dodat one voices in specific languages i guess (tribat će razradit s obzirun kako je za sad postavno)
+                  lang = newValue;
+                  // print(lang);
                 });
               },
             ),

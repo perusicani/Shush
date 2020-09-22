@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:noise_meter/noise_meter.dart';
@@ -38,6 +39,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
   bool gender;
 
   String soundPath;
+  String lang;
 
   void checkSP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -45,7 +47,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       //ako ni namešćen, default
       await prefs.setBool('gender', true);
     } else {
-      gender = prefs.getBool('gender'); //ako je ulovi ga
+      gender = prefs.getBool('gender');
       if (gender) {
         soundPath = "lib/assets/male_voice/Shhh-sound";
       } else {
@@ -56,6 +58,9 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     print("gender set to " +
         gender.toString() +
         " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
+
+    lang = prefs.getString('lang');
+    print("language in bloc init " + prefs.getString('lang').toString());
   }
 
   Future<int> _loadSound(String path) async {
@@ -155,7 +160,6 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     data = noiseReading.meanDecibel;
 
     add(UpdateListening());
-    // });
     // print(noiseReading.toString());
   }
 
@@ -176,10 +180,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         _noiseSubscription.cancel();
         _noiseSubscription = null;
       }
-      // this.setState(() {
       this._isRecording = false;
-      // });
-    } catch (err) {
+      } catch (err) {
       print('stopRecorder error: $err');
     }
     buffer = 0;
@@ -192,12 +194,12 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     ListeningEvent event,
   ) async* {
     if (event is StartListening) {
-      // ignore: await_only_futures
-      await checkSP();
-      // stupid fucking permission handled
+      checkSP();
       if (await Permission.microphone.request().isGranted) {
         //ako ništa ne odabrano, default je male (aš san isto sexist UwU)
         soundPath ??= "lib/assets/male_voice/Shhh-sound";
+        //again, default to English just in case
+        lang ??= "English";
         volume = event.volume;
         originalVolume = event.volume; //pamti volume ki odredi user
 
@@ -207,8 +209,9 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         print(soundPath + "1.mp3");
         _soundId2 = _loadSound(soundPath + "2.mp3");
         print(soundPath + "2.mp3");
-        _soundId3 = _loadSound(soundPath + "3.mp3");
-        print(soundPath + "3.mp3");
+        //_soundId3 = _loadSound(soundPath + "3.mp3");  <-- og
+        _soundId3 = _loadSound(soundPath + "3" + "-" + lang + ".mp3");
+        print(soundPath + "3" + "-" + lang + ".mp3");
 
         buffer = 0;
 
@@ -220,8 +223,6 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
     }
     if (event is StopListening) {
-      // ignore: await_only_futures
-      await checkSP();
       stop();
       print("STOPPED");
       yield NotListening(gender: gender);
@@ -229,6 +230,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     if (event is UpdateListening) {
       // print("on yield update listening buffer value = " + buffer.toString());
       // print("on yield updatelistening data value = " + data.toString());
+      if (data == double.negativeInfinity) data = 0;
       yield UpdatedListening(buffer: buffer, data: data);
     }
   }

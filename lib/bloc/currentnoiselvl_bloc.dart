@@ -62,6 +62,7 @@ class CurrentnoiselvlBloc
     }
     if (event is UpdateCurrentNoiseLvl) {
       // print("current noise data = " + data.toString());
+      if (data == double.negativeInfinity) data = 0;
       yield ListeningCurrentNoiseLvl(data: data);
     }
   }

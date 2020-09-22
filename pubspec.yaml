@@ -57,20 +57,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/assets/female_voice/Shhh-sound0.mp3
-    - lib/assets/female_voice/Shhh-sound1.mp3
-    - lib/assets/female_voice/Shhh-sound2.mp3
-    - lib/assets/female_voice/Shhh-sound3.mp3
-    - lib/assets/male_voice/Shhh-sound0.mp3
-    - lib/assets/male_voice/Shhh-sound1.mp3
-    - lib/assets/male_voice/Shhh-sound2.mp3
-    - lib/assets/male_voice/Shhh-sound3.mp3
-    - lib/assets/localization/en-GB.json
-    - lib/assets/localization/hr-HR.json
-    - lib/assets/localization/it-IT.json
-    - lib/assets/localization/fr-FR.json
-    - lib/assets/localization/es-ES.json
-    - lib/assets/localization/de-DE.json
+    - lib/assets/female_voice/
+    - lib/assets/male_voice/
+    - lib/assets/localization/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

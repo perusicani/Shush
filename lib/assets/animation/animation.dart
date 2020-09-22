@@ -26,7 +26,7 @@ class _SpriteDemoState extends State<SpriteDemo> {
      * dovoljan je build sa novim dimenzijama
      * 
      * parametri s kojima se treba igrat:
-     * - duration timera, odnosno koliko cesto se updatea <-- you stupid, update gre na yield fucker (alse jebe setState())
+     * - duration timera, odnosno koliko cesto se updatea <-- you stupid, update gre na yield fucker
      * - duration animacije, odnosno kolik brzo ce se animirati u novi polozaj  <-- jako brzo
      * - curve parametar od animacije, stavis Curves. pa vidis sta sve ima i testiras
      * 

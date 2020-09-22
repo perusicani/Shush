@@ -305,7 +305,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                     height: 40.0,
                   ),
                   //TODO remove/comment later when logic done
-                  SizedBox(height: 20.0),
                   RaisedButton(
                     onPressed: () async {
                       currentnoiselvlBloc.add(StopListeningCurrentNoiseLvl());
