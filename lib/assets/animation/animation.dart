@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class SpriteDemo extends StatefulWidget {
   final double data;
+  final double height;
 
-  SpriteDemo({this.data});
+  SpriteDemo({this.data, this.height});
 
   @override
   _SpriteDemoState createState() => _SpriteDemoState();
@@ -60,6 +61,7 @@ class _SpriteDemoState extends State<SpriteDemo> {
 
   @override
   Widget build(BuildContext context) {
+    print("RECEIVED VALUES: " + widget.data.toString() + " " + widget.height.toString());
     return Container(
       child: Center(
         child: AnimatedContainer(
@@ -76,10 +78,10 @@ class _SpriteDemoState extends State<SpriteDemo> {
             shape: BoxShape.circle,
             color: Colors.yellow[800].withOpacity(0.0),
           ),
-          // height: _height,
-          // width: _width,
-          height: widget.data * 1.5 + MediaQuery.of(context).size.height * 0.2,
-          width: widget.data * 1.5 + MediaQuery.of(context).size.width * 0.2,
+          height: widget.data * 1.5 + widget.height,
+          width: widget.data * 1.5 + widget.height,
+          // height: widget.data * 1.5 + MediaQuery.of(context).size.height * 0.2,
+          // width: widget.data * 1.5 + MediaQuery.of(context).size.width * 0.2,
           child: Center(
             child: Text(
               "Šanko\nće\npobrat\nćepu",

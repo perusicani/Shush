@@ -24,6 +24,12 @@ class CurrentnoiselvlBloc
     }
   }
 
+  @override
+  Future<void> close() {
+    _noiseSubscription?.cancel();
+    return super.close();
+  }
+
   void onData(NoiseReading noiseReading) {
     
     if (!this._isRecording) {

@@ -1,9 +1,9 @@
 {
     "descriptionTitle": "App description",
     "descriptionContent": "The point is you should shut up",
-    "voicePackTitle": "Voice pack",
-    "maleVoice": "Male voice",
-    "femaleVoice": "Female voice",
+    "voicePackTitle": "Voice",
+    "maleVoice": "Male",
+    "femaleVoice": "Female",
     "startButton": "Start listening",
     "stopButton": "Stop Listening",
     "inputVolume": "input volume in dB:",
