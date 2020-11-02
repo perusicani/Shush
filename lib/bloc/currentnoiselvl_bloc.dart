@@ -52,12 +52,10 @@ class CurrentnoiselvlBloc
     CurrentnoiselvlEvent event,
   ) async* {
     if (event is StartListeningCurrentNoiseLvl) {
-      print("STARTED CURRENT RECORDING JUST SO I KNOW THANK YOU");
       start();
       yield ListeningCurrentNoiseLvl(data: data);
     }
     if (event is StopListeningCurrentNoiseLvl) {
-      print("STOPPED CURRENT RECORDING JUST SO I KNOW THANK YOU");
       stopRecorder();
     }
     if (event is UpdateCurrentNoiseLvl) {

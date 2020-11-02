@@ -39,7 +39,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
       Duration(seconds: 2),
       () {
         _clickable = true;
-        print("Šanko pederčina");
         setState(() {});
       },
     );
@@ -186,8 +185,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                 ),
                               ),
                             );
-                            print("ON NAVIGATOR PUSH VOLUME = " +
-                                volume.toString());
                             currentnoiselvlBloc
                                 .add(StopListeningCurrentNoiseLvl());
                           }
@@ -236,8 +233,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                   animateFromLastPercent: true,
                                 );
                               }
-                              print(
-                                  " fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me");
                               return Container();
                             },
                           ),
@@ -308,7 +303,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                   RaisedButton(
                     onPressed: () async {
                       currentnoiselvlBloc.add(StopListeningCurrentNoiseLvl());
-                      print("stopped finally fucker");
                     },
                     child: Text("stop current"),
                   ),

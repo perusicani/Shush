@@ -32,7 +32,6 @@ dependencies:
   simple_animations: ^2.2.1
   shared_preferences: ^0.5.8
   percent_indicator: ^2.1.5
-  lottie: ^0.5.1
   provider: ^4.3.2+1
   easy_localization: ^2.3.3
 

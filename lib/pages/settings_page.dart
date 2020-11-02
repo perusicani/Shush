@@ -14,7 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Color unselectedColor = Colors.grey.withOpacity(0.4);
   Color selectedColor = Colors.yellow[800].withOpacity(0.6);
 
-  String dropDownValue = '-'; //rabit će presistat, tj sranje
+  String dropDownValue = '-'; 
 
   String lang;
 
@@ -23,9 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       gender = prefs.getBool('gender');
     });
-    
-    await prefs.setString('lang', lang);
-    print("language in SP : " + prefs.getString('lang').toString());
+    lang = prefs.getString('lang');
   }
 
   @override
@@ -133,18 +131,8 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SizedBox(height: 40.0),
             DropdownButton<String>(
-              value: dropDownValue,
-              //ako će ovako, onda triba mapirat se načine bilo kog jezika va en, hr, de, itd... da se slaže s locale i onda to mapirat va toLocale
-              //mapirano jeste ali jebe
-              // items: <String>['Language', '${'hr'.tr().toString()}', '${'en'.tr().toString()}', '${'fr'.tr().toString()}', '${'de'.tr().toString()}', '${'it'.tr().toString()}', '${'es'.tr().toString()}']
-              //     .map<DropdownMenuItem<String>>((String value) {
-              //   return DropdownMenuItem<String>(
-              //     value: value,
-              //     child: Text(value),
-              //   );
-              // }).toList(),
+              value: lang ?? 'English',
               items: <String>[
-                '-',
                 'Hrvatski',
                 'English',
                 'Français',
@@ -168,19 +156,15 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 );
               }).toList(),
-              onChanged: (String newValue) {
-                checkSP();
+              onChanged: (String newValue) async {
                 setState(() {
-                  if (newValue != '-')
-                    // EasyLocalization.of(context).locale = Locale(toShort["$newValue"].toString(), toLocale[toShort["$newValue"].toString()].toString());
-                    EasyLocalization.of(context).locale = Locale(
+                  EasyLocalization.of(context).locale = Locale(
                         toShort["$newValue"].toString(),
                         toLocale[toShort["$newValue"]].toString());
-                  dropDownValue = newValue;
-                  //tu dodat one voices in specific languages i guess (tribat će razradit s obzirun kako je za sad postavno)
                   lang = newValue;
-                  // print(lang);
                 });
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.setString('lang', newValue);
               },
             ),
             SizedBox(height: 60.0),

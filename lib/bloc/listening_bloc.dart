@@ -17,7 +17,7 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
 
   Soundpool _soundpool = Soundpool();
   int _alarmSoundStreamId; //kao unused ne laži
-  Future<int> _soundId0, _soundId1, _soundId2, _soundId3;
+  Future<int> _soundId0, _soundId1, _soundId2;  // _soundId3;
 
   bool _isRecording = false;
   StreamSubscription<NoiseReading> _noiseSubscription;
@@ -55,18 +55,29 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       }
       print("Soundpath in bloc is : " + soundPath);
     }
-    print("gender set to " +
-        gender.toString() +
-        " in bloc shit fucking hell this is giving me nightmares also depression is hitting again, life is pain");
-
     lang = prefs.getString('lang');
-    print("language in bloc init " + prefs.getString('lang').toString());
   }
 
   Future<int> _loadSound(String path) async {
     var asset = await rootBundle.load(path);
     return await _soundpool.load(asset);
   }
+
+  // Future<void> _playSound(int number) async {
+  //   if (number == 0) {
+  //     var _alarmSound = await _soundId0; //_soundId
+  //     _alarmSoundStreamId = await _soundpool.play(_alarmSound);
+  //   } else if (number == 1) {
+  //     var _alarmSound = await _soundId1; //_soundId
+  //     _alarmSoundStreamId = await _soundpool.play(_alarmSound);
+  //   } else if (number == 2) {
+  //     var _alarmSound = await _soundId2; //_soundId
+  //     _alarmSoundStreamId = await _soundpool.play(_alarmSound);
+  //   } else {
+  //     var _alarmSound = await _soundId3; //_soundId
+  //     _alarmSoundStreamId = await _soundpool.play(_alarmSound);
+  //   }
+  // }
 
   Future<void> _playSound(int number) async {
     if (number == 0) {
@@ -75,11 +86,8 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
     } else if (number == 1) {
       var _alarmSound = await _soundId1; //_soundId
       _alarmSoundStreamId = await _soundpool.play(_alarmSound);
-    } else if (number == 2) {
-      var _alarmSound = await _soundId2; //_soundId
-      _alarmSoundStreamId = await _soundpool.play(_alarmSound);
     } else {
-      var _alarmSound = await _soundId3; //_soundId
+      var _alarmSound = await _soundId2; //_soundId
       _alarmSoundStreamId = await _soundpool.play(_alarmSound);
     }
   }
@@ -96,12 +104,22 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
       j--;
     }
 
-    // print("buffer value: " + buffer.toString());
-    // print("volume value: " + volume.toString());
-
     if (noiseReading.meanDecibel >= volume) {
-      if (buffer < 140) buffer += 0.5;  //TODO not good fix, indicator goes only to 100 but dB goes above
-
+      if (buffer < 140) { //TODO not good fix, indicator goes only to 100 but dB goes above
+        //buffer += 0.5;  
+        //ako noisereading puno veći od volume (za sad 150%volume-a)
+        if (noiseReading.meanDecibel > (volume*1.5)) {  
+          //brže puni --> nezz +1
+          buffer += 1;
+        } else {
+          //inače
+          //puni normalno +.5
+          buffer += 0.5;
+        }
+      }
+        
+      
+      //ako je predugo buffer između
       if (j > 300) {
         k = 7; //ekvivalent čekanja sekunde
         i = 40;
@@ -112,29 +130,25 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
             "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       }
 
+      //čekanje između play sounda
       if (k > 0) {
         k--;
         print("k value on decrease: " + k.toString());
-        print("UwU");
       }
 
       if (buffer >= i) {
         i += 40; //+40 va i value (dodaj 6 sec)
-        print("i value : " + i.toString());
-        print("k value : " + k.toString());
 
-        volume = noiseReading
-            .meanDecibel; //povisi threshold na meanDecibel, odnosno triba bit glasniji nego ča je bilo do sada (kasnije kada se isprazni buffer vrati na og volume value)
-
-        print("volume on update: " + volume.toString());
+        //povisi threshold na meanDecibel, odnosno triba bit glasniji nego ča je bilo do sada (kasnije kada se isprazni buffer vrati na og volume value)
+        // volume = noiseReading
+        //     .meanDecibel; 
 
         played++;
         print("played value: " + played.toString());
-        if (played < 4 && k == 0) {
+        if (played < 3 && k == 0) { //played b4  < 4
           _playSound(played);
         } else {
           //  final sound played situation?
-
         }
       }
     } else if (noiseReading.meanDecibel < volume && buffer > 0) {
@@ -146,28 +160,17 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         volume =
             originalVolume; //stavi volume koji se koristi na og volume koji je određen od korisnika
         i = 40; //vrati controlnu var na start da opet za šest sec more srat ovaj
-        print("values on buffer == 0: " +
-            "\nplayed: " +
-            played.toString() +
-            "\nvolume: " +
-            volume.toString() +
-            "\ni: " +
-            i.toString() +
-            "\n");
+        print("reseted values because buffer empty");
       }
     }
 
     data = noiseReading.meanDecibel;
 
     add(UpdateListening());
-    // print(noiseReading.toString());
   }
 
   void start() async {
     try {
-      print("buffer value on start: " + buffer.toString());
-      print("i value on start: " + i.toString());
-      print("played value on start: " + played.toString());
       _noiseSubscription = _noiseMeter.noiseStream.listen(onData);
     } catch (err) {
       print(err);
@@ -203,14 +206,14 @@ class ListeningBloc extends Bloc<ListeningEvent, ListeningState> {
         volume = event.volume;
         originalVolume = event.volume; //pamti volume ki odredi user
 
-        _soundId0 = _loadSound(soundPath + "0.mp3");
-        print(soundPath + "0.mp3");
-        _soundId1 = _loadSound(soundPath + "1.mp3");
+        _soundId0 = _loadSound(soundPath + "1.mp3");  //b4 0
         print(soundPath + "1.mp3");
-        _soundId2 = _loadSound(soundPath + "2.mp3");
+        _soundId1 = _loadSound(soundPath + "2.mp3");  //b4 1
         print(soundPath + "2.mp3");
+        // _soundId2 = _loadSound(soundPath + "2.mp3");
+        // print(soundPath + "2.mp3");
         //_soundId3 = _loadSound(soundPath + "3.mp3");  <-- og
-        _soundId3 = _loadSound(soundPath + "3" + "-" + lang + ".mp3");
+        _soundId2 = _loadSound(soundPath + "3" + "-" + lang + ".mp3");  //b4 soundid3
         print(soundPath + "3" + "-" + lang + ".mp3");
 
         buffer = 0;

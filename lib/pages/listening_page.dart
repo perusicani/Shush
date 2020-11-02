@@ -30,12 +30,10 @@ class _ListeningPageState extends State<ListeningPage> {
       Duration(seconds: 2),
       () {
         _clickable = true;
-        print("Šanko pederčina");
         setState(() {});
       },
     );
     super.initState();
-    print("ON ADD EVENT VOLUME = " + widget.volume.toString());
     listeningBloc.add(StartListening(volume: widget.volume));
   }
 
@@ -92,17 +90,14 @@ class _ListeningPageState extends State<ListeningPage> {
                     ),
                   ),
                   Container(
-                    child: Padding(
-                      padding: EdgeInsets.all(30.0),
-                      child: BlocBuilder<ListeningBloc, ListeningState>(
-                        builder: (context, state) {
-                          if (state is UpdatedListening) {
-                            // print("state data = " + state.data.toString());
-                            return SpriteDemo(data: state.data);
-                          }
-                          return Container();
-                        },
-                      ),
+                    child: BlocBuilder<ListeningBloc, ListeningState>(
+                      builder: (context, state) {
+                        if (state is UpdatedListening) {
+                          // print("state data = " + state.data.toString());
+                          return SpriteDemo(data: state.data);
+                        }
+                        return Container();
+                      },
                     ),
                   ),
                   Positioned(
