@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Shush/assets/animation/animation.dart';
 import 'package:Shush/bloc/currentnoiselvl_bloc.dart';
+import 'package:Shush/pages/not_listening_page.dart';
 import 'package:Shush/provider/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:Shush/bloc/listening_bloc.dart';
@@ -16,10 +17,13 @@ const MAX_BUFFER_VALUE = 140;
 
 class ListeningPage extends StatefulWidget {
   // final listeningBloc;
-  final currentnoiselvlBloc;
+  // final currentnoiselvlBloc;
   // ListeningPage({this.listeningBloc, this.currentnoiselvlBloc});
   final double volume;
-  ListeningPage({this.volume, this.currentnoiselvlBloc});
+  ListeningPage({
+    this.volume,
+    /*this.currentnoiselvlBloc*/
+  });
 
   @override
   _ListeningPageState createState() => _ListeningPageState();
@@ -36,7 +40,6 @@ class _ListeningPageState extends State<ListeningPage> {
       Duration(seconds: 2),
       () {
         _clickable = true;
-        print("Šanko pederčina");
         setState(() {});
       },
     );
@@ -59,9 +62,17 @@ class _ListeningPageState extends State<ListeningPage> {
         onWillPop: () {
           //fixes on back button stop bloc
           listeningBloc.add(StopListening());
-          Navigator.of(context).pop();
-          widget.currentnoiselvlBloc.add(StopListeningCurrentNoiseLvl());
-          widget.currentnoiselvlBloc.add(StartListeningCurrentNoiseLvl());
+          // widget.currentnoiselvlBloc.add(StopListeningCurrentNoiseLvl());
+          // widget.currentnoiselvlBloc.add(StartListeningCurrentNoiseLvl());
+
+          // Navigator.of(context).pop();
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NotListeningPage(
+                    // currentnoiselvlBloc: currentnoiselvlBloc,
+                    ),
+              ));
           return;
         },
         child: Scaffold(
@@ -88,10 +99,18 @@ class _ListeningPageState extends State<ListeningPage> {
                             onPressed: _clickable
                                 ? () async {
                                     listeningBloc.add(StopListening());
-                                    Navigator.of(context).pop();
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => NotListeningPage(
+                                              // currentnoiselvlBloc: currentnoiselvlBloc,
+                                              ),
+                                        ));
+                                    // Navigator.of(context).pop();
                                     //TODO somehow trigger currentnoiseBloc na drugon screenu (shit fix za sad passan bloc celi)
-                                    widget.currentnoiselvlBloc
-                                        .add(StartListeningCurrentNoiseLvl());
+                                    // widget.currentnoiselvlBloc.add(StopListeningCurrentNoiseLvl());
+                                    // widget.currentnoiselvlBloc
+                                    //     .add(StartListeningCurrentNoiseLvl());
                                   }
                                 : null,
                             child: Text(
@@ -400,9 +419,7 @@ class _NoiseBufferState extends State<NoiseBuffer> {
     return Container(
         width: MediaQuery.of(context).size.width * 0.8,
         decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(200)
-        ),
+            color: Colors.grey, borderRadius: BorderRadius.circular(200)),
         child: Stack(
           children: [
             LayoutBuilder(builder: (context, constraints) {
@@ -540,28 +557,30 @@ String getImageFromBuffer(double buffer) {
   return "3";
 }
 
-
-double getOpacityFromBuffer(double buffer){
+double getOpacityFromBuffer(double buffer) {
   double percentage = buffer / MAX_BUFFER_VALUE;
-  if(percentage < 0.33){
+  if (percentage < 0.33) {
     return mapToRange(x: percentage, inMin: 0.0, inMax: 0.33);
   }
-  if(percentage < 0.66){
+  if (percentage < 0.66) {
     return mapToRange(x: percentage, inMin: 0.33, inMax: 0.66);
   }
   return mapToRange(x: percentage, inMin: 0.66, inMax: 1.0);
 }
 
-double mapToRange({double x, double inMin, double inMax, double outMin = 0.0, double outMax = 1.0}){
+double mapToRange(
+    {double x,
+    double inMin,
+    double inMax,
+    double outMin = 0.0,
+    double outMax = 1.0}) {
   return (x - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
-
-
 /// Cool stuff, moght use later
-/// 
-/// 
-/// 
+///
+///
+///
 /**
  * 
                 return Container(

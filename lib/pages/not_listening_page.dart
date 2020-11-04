@@ -40,7 +40,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
       Duration(seconds: 2),
       () {
         _clickable = true;
-        print("Šanko pederčina");
         setState(() {});
       },
     );
@@ -54,7 +53,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -67,9 +65,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 5,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
               Expanded(
                 flex: 8,
@@ -173,7 +171,7 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           color: Colors.grey.withOpacity(0.4),
                           // iconSize: MediaQuery.of(context).size.height * 0.035,
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SettingsPage(),
@@ -189,9 +187,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 10,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
               Expanded(
                 flex: 13,
@@ -213,9 +211,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 10,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
               Expanded(
                 flex: 11,
@@ -230,12 +228,12 @@ class _NotListeningPageState extends State<NotListeningPage> {
                           ? () async {
                               // widget.listeningBloc
                               //     .add(StartListening(volume: volume));
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ListeningPage(
                                     volume: volume,
-                                    currentnoiselvlBloc: currentnoiselvlBloc,
+                                    // currentnoiselvlBloc: currentnoiselvlBloc,
                                   ),
                                 ),
                               );
@@ -269,9 +267,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 10,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
               Expanded(
                 flex: 3,
@@ -313,9 +311,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 3,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
               Expanded(
                 flex: 10,
@@ -340,8 +338,8 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                 return LinearPercentIndicator(
                                   //TODO same problem with the indicator, goes to 100 but slider can choose up to 120 dB
                                   animationDuration: 200,
-                                  width: MediaQuery.of(context).size.width *
-                                      0.7,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
                                   lineHeight: 4.0,
                                   percent: ((state.data ?? 0) /
                                       141), //da se slaže s input sliderun
@@ -352,8 +350,6 @@ class _NotListeningPageState extends State<NotListeningPage> {
                                   animateFromLastPercent: true,
                                 );
                               }
-                              print(
-                                  " fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me fuck me");
                               return Container();
                             },
                           ),
@@ -395,9 +391,9 @@ class _NotListeningPageState extends State<NotListeningPage> {
               Expanded(
                 flex: 5,
                 child: Container(
-                  // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                  //     .withOpacity(1.0),
-                ),
+                    // color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                    //     .withOpacity(1.0),
+                    ),
               ),
             ],
           ),
