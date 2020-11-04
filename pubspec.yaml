@@ -77,9 +77,9 @@ flutter:
   fonts:
     - family: OpenSansCondensed
       fonts:
-        - asset: lib\assets\fonts\OpenSansCondensed-Bold.ttf
-        - asset: lib\assets\fonts\OpenSansCondensed-Light.ttf
-        - asset: lib\assets\fonts\OpenSansCondensed-LightItalic.ttf
+        - asset: lib/assets/fonts/OpenSansCondensed-Bold.ttf
+        - asset: lib/assets/fonts/OpenSansCondensed-Light.ttf
+        - asset: lib/assets/fonts/OpenSansCondensed-LightItalic.ttf
           style: italic
 
   
